@@ -1,32 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import GameList from '../GameList/GameList';
+import GameDetail from '../GameDetail/GameDetail';
+import './Characters.css';
 
-
-
-const Characters = () => {
+function Characters () {
     const [characters, setCharacters] = useState ([])
+    
 
-    useEffect (() => {
-        const getData = () => {
+    useEffect(() => {
+        const getList = () => {
             fetch('https://apis.wilders.dev/wild-games/games/')
                 .then(resp => resp.json())
-                .then(data => console.log(data) || setCharacters(data))
+                .then(data => setCharacters(data))
         }
-        getData()
-    },[]) 
+        getList()
+    },[])
+    
 
     return (
-        <div>
-            {characters.map((character) => (
-
-                    <div>
-                    {character.name}
-                    <p>Date de sortie : {character.released}</p>
-                    <p>Genre: {character.genres[0].name}</p>
-                    <img src={character.background_image} />
-                    </div>
-    
-            ))}
-        </div>
-        )
+        <>
+        {characters.map((game) => {
+            return (
+                <GameList {...game} />
+                )
+        })}
+        </>
+    )
+        
     }
+        
 export default Characters;
